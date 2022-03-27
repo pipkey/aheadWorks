@@ -1,18 +1,18 @@
 let initialState = [
-  // {
-  //   id: Date.now(),
-  //   anotation: `kskskk`,
-  //   weather: `+1200`,
-  //   city: `Minsk`,
-  //   date: `2213322`,
-  //   time: `wwwe311`,
-  // },
-  // {id: Date.now(),
-  //   anotation: `wwwqqwwq`,
-  //   weather: `+100`,
-  //   city: `Minsk`,
-  //   date: `22sds3322`,
-  //   time: `ww11`,},
+  {
+    id: Date.now(),
+    anotation: `kskskk`,
+    weather: `+1200`,
+    city: `Minsk`,
+    date: `2213322`,
+    time: `wwwe311`,
+  },
+  {id: 1231231231211,
+    anotation: `wwwqqwwq`,
+    weather: `+100`,
+    city: `Minsk`,
+    date: `22sds3322`,
+    time: `ww11`,},
 ];
 
 export const reducer = (state = initialState, action) => {
@@ -28,8 +28,9 @@ export const reducer = (state = initialState, action) => {
       };
       return [...state, newCard];
     case "DELETE_CARD":
-      return [state.filter((c) => c.id !== action.cardID)];
-
+    
+      return state.filter(el=> el.id !== action.id)
+  
     default:
       return state;
   }

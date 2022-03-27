@@ -1,7 +1,7 @@
 import React from "react";
 import { useDispatch} from "react-redux";
 
-const Form = ({ value, setValue}) => {
+const Form = ({value, setValue}) => {
 
   const dispatch = useDispatch();
   
