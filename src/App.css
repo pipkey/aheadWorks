@@ -1,0 +1,19 @@
+.card__wrapper{
+    margin: 20px;
+    padding: 15px;
+    border: 1px solid grey;
+    border-radius: 15px;
+    width: 500px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.card__wrapper > p{
+    color: rgb(51, 48, 48);
+    font-size: 17px;
+    font-weight: 700;
+}
+
+.card-weather__wrapper{
+
+}
