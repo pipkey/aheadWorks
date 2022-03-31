@@ -1,42 +1,39 @@
 import React from "react";
-import { useDispatch} from "react-redux";
+import { useDispatch } from "react-redux";
 import { useState } from "react";
 import { getWeatherThunkCreator } from "../../redux/reducer";
-import axios from "axios";
-
-
-
-let lat = "53.8981";
-let lon = "30.3325";
-const API_KEY = `7f30d4b1c82ad09e14f5eea3381c21e2`;
-let link = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${API_KEY}&units=metric`;
-
+import style from "./Form.module.css";
 
 
 const Form = () => {
   const [value, setValue] = useState("");
-  const temp = axios.get(link).then(res=> res.data.main.temp);
+  const [error, setError] = useState(false);
   const dispatch = useDispatch();
-  
 
   const addCard = (e) => {
     e.preventDefault();
-    dispatch(getWeatherThunkCreator(value))
+    dispatch(getWeatherThunkCreator(value));
     setValue("");
   };
 
-
   return (
-    <div>
+    <div className={style.formWrapper}>
       <form>
         <input
+          className={error ? style.inputERROR : style.input}
           placeholder="add your task"
           value={value}
-          onChange={(e) => setValue(e.target.value)}
+          onChange={(e) =>
+            e.target.value.length < 300
+              ? setValue(e.target.value) + setError(false)
+              : setError(true)
+          }
         />
-        <button onClick={addCard} style={{display:"none"}}> add </button>
+        <button onClick={addCard} style={{ display: "none" }} disabled={error}>
+          add
+        </button>
       </form>
-      <p>{value ? "add note..." : ""}</p>
+      {!error ? <p className={style.text}>{value ? "add note ..." : ""}</p> : <p className={style.errorText}> Много текста </p>}
     </div>
   );
 };

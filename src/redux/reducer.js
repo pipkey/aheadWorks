@@ -6,31 +6,32 @@ let lon = "30.3325";
 const API_KEY = `7f30d4b1c82ad09e14f5eea3381c21e2`;
 let link = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${API_KEY}&units=metric`;
 
-// ? функция получения погоды
-
-// export const getWeather = async () => {
-//   const res = await axios
-//     .get(link)
-//     .then((res) => console.log(res.data.main.temp))
-// };
-
 export const reducer = (state = [], action) => {
   let date = new Date();
 
   switch (action.type) {
     case "ADD_CARD":
-      
       let newCard = {
         id: v1(),
         anotation: action.data.value,
-
-        weather: action.data.temp,  
-        
+        weather:
+          Math.round(action.data.temp) + "°C",
+        icon: action.data.icon,
         city: "Mogilev",
         date: `${date.getDate()}. ${
-          date.getMonth() + 1
+          date.getMonth() + 1 < 10
+            ? "0" + `${date.getMonth() + 1}`
+            : date.getMonth() + 1
         }. ${date.getFullYear()}`,
-        time: `${date.getHours()}: ${date.getMinutes()}`,
+        time: `${
+          date.getHours() < 10 
+            ? "0" + `${date.getHours()}` 
+            : date.getHours()
+        }: ${
+          date.getMinutes() < 10
+            ? "0" + `${date.getMinutes()}`
+            : date.getMinutes()
+        }`,
       };
 
       return [...state, newCard];
@@ -45,14 +46,20 @@ export const reducer = (state = [], action) => {
 // ! actionCreator
 export const addCardAC = (data) => ({
   type: "ADD_CARD",
-  data
+  data,
 });
 
 // ! thunk
 export const getWeatherThunkCreator = (value) => {
-  
   return async (dispatch) => {
-    let res = await axios.get(link)
-    res && dispatch(addCardAC({value, temp: res.data.main.temp}));
+    let res = await axios.get(link);
+    res &&
+      dispatch(
+        addCardAC({
+          value,
+          temp: res.data.main.temp,
+          icon: res.data.weather[0].icon,
+        })
+      );
   };
 };
